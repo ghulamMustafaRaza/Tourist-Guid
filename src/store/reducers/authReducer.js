@@ -28,6 +28,15 @@ export default (state = initialState, action) => {
         case 'LOAD_USER_FULLFIL': 
             return {...state, user:action.payload, loading: false}
             break;
+        case 'LOG_IN_FAIL': 
+            return {...state, loading: false}
+            break;
+        case 'SIGN_UP_FAIL':
+            return {...state, loading: false}
+            break;
+        case 'LOG_OUT_FAIL':
+            return {...state, loading: false}
+            break;
         default:
             return state
     }

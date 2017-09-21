@@ -33,8 +33,9 @@ export default class authEpics {
                     var currentUser = firebase.auth().currentUser;
                     return authActions.logInFullFil(currentUser)
                 }).catch(err => {
+                    alert(err.message)                    
                     return ({
-                        type: "SIGN_UP_FAIL",
+                        type: "LOG_IN_FAIL",
                         payload: {err}
                     })
                 })
@@ -52,6 +53,7 @@ export default class authEpics {
                 .then(() => {
                     return authActions.logOutFullFil()
                 }).catch(err => {
+                    alert(err.message)
                     return ({
                         type: "LOG_OUT_FAIL",
                         payload: {err}
@@ -76,6 +78,7 @@ export default class authEpics {
                     var currentUser = firebase.auth().currentUser;
                     return authActions.signUpFullFil(currentUser)
                 }).catch(err => {
+                    alert(err.message)                    
                     return ({
                         type: "SIGN_UP_FAIL",
                         payload: {err}

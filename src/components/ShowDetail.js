@@ -1,6 +1,8 @@
 import React from 'react'
-import { Image, View, Text, ScrollView, Dimensions } from 'react-native'
+import { Image, View, Text, ScrollView, Dimensions, ActivityIndicator } from 'react-native'
 import Carousel from 'react-native-snap-carousel';
+import { connect } from 'react-redux'
+import { mapActions } from '../store/actions/mapActions'
 
 class Pin extends React.Component{
     constructor(props) {
@@ -15,6 +17,19 @@ class Pin extends React.Component{
         title: 'Show Detail',
     };
     
+    componentDidMount = () => {
+        let el = this.props.navigation.state.params;        
+        let key = 'AIzaSyDJRJLuYUzv-ESchNEX52lORZGX1ASZ_Cg';
+        let disignation = `${el.geometry.location.lat},${el.geometry.location.lng}`;
+        let origin = `${this.props.userLocation.latitude},${this.props.userLocation.longitude}`;
+
+        let uri = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${disignation}&key=${key}`
+
+        this.props.loadRoute({uri})
+
+        console.log(uri)
+    }
+
     render(){
         let el = this.props.navigation.state.params;
         const horizontalMargin = 20;
@@ -42,8 +57,35 @@ class Pin extends React.Component{
                     Open Now: {el.opening_hours.open_now? 'Yes' : 'No'} 
                     {/* {JSON.stringify(el)} */}
                 </Text>}
-                <View>
-
+                <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                    <Text style={{padding: 8}} >
+                        Time: 
+                    </Text>
+                    {this.props.routeLoading ?
+                        <ActivityIndicator/>
+                    :this.props.defination !== null?
+                        <Text style={{padding: 8}} >
+                            {this.props.defination.duration.text}
+                        </Text>
+                    :
+                        <Text style={{padding: 8}} >
+                            Err
+                        </Text>
+                    }
+                    <Text style={{padding: 8}} >
+                        Distance: 
+                    </Text>
+                    {this.props.routeLoading ?
+                        <ActivityIndicator/>
+                    :this.props.defination !== null?
+                        <Text style={{padding: 8}} >
+                            {this.props.defination.distance.text}
+                        </Text>
+                    :
+                        <Text style={{padding: 8}} >
+                            Err
+                        </Text>
+                    }
                 </View>
             </ScrollView>
         )
@@ -66,4 +108,16 @@ const styles = {
     }
 }
 
-export default Pin
+
+const mapStateToProps = (state) => ({
+    routes       : state.map.routes,
+    routeLoading : state.map.routeLoading,
+    userLocation : state.map.userLocation,
+    defination   : state.map.defination
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    loadRoute: (payload) => (dispatch(mapActions.loadRoute(payload))) 
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Pin) 

@@ -7,13 +7,10 @@ import Modal from 'react-native-modal'
 class Pin extends React.Component{
     constructor(props) {
         super(props)
-        this.state={
-            isModalVisible: false
-        }
     }
 
     navigator = () => this.props.navigate('showDetail', this.props.el)
-    
+
     render(){
         let {el, key} = this.props;
         return(

@@ -74,42 +74,42 @@ class Login extends React.Component{
         )
         console.log(this.navigate)
         return(
-            this.props.loading?
-                <ActivityIndicator size={50}/>
-            :
-                <View style={styles.container} >
-                    <Text 
-                        style={{fontSize: 27}}>
-                        Login To Your Account
-                    </Text>
-                    <TextInput ref="email"
-                        onSubmitEditing={() => {
-                            this.focusNext('password')
-                        }} 
-                        keyboardType="email-address" 
-                        placeholder='Enter Your Email'
-                        returnKeyType="go"
+        this.props.loading?
+            <ActivityIndicator style={styles.spinner} size={50}/>
+        :
+            <View style={styles.container} >
+                <Text 
+                    style={{fontSize: 27}}>
+                    Login To Your Account
+                </Text>
+                <TextInput ref="email"
+                    onSubmitEditing={() => {
+                        this.focusNext('password')
+                    }} 
+                    keyboardType="email-address" 
+                    placeholder='Enter Your Email'
+                    returnKeyType="go"
+                />
+                <TextInput ref="password"
+                    onSubmitEditing={this.onLoginPress}
+                    secureTextEntry={true}
+                    placeholder='Enter Your Password'
+                    returnKeyLabel="Log In"
+                    returnKeyType="done"
+                />
+                <View style={{margin:7}} />
+                <Button 
+                        onPress={this.onLoginPress}
+                        title="Log In"
                     />
-                    <TextInput ref="password"
-                        onSubmitEditing={this.onLoginPress}
-                        secureTextEntry={true}
-                        placeholder='Enter Your Password'
-                        returnKeyLabel="Log In"
-                        returnKeyType="done"
-                    />
-                    <View style={{margin:7}} />
-                    <Button 
-                            onPress={this.onLoginPress}
-                            title="Log In"
-                        />
-                    <Button
-                        onPress={() => {
-                            this.navigation.navigate('SignUp')
-                        }}
-                        color="#333"
-                        title="Create A Account"
-                    />
-                </View>
+                <Button
+                    onPress={() => {
+                        this.navigation.navigate('SignUp')
+                    }}
+                    color="#333"
+                    title="Create A Account"
+                />
+            </View>
         )
     }
 } 
@@ -126,7 +126,15 @@ const styles = StyleSheet.create({
     bottom: 0,
     position: 'absolute',
     padding: 20
-  }
+  },
+  spinner: {
+    backgroundColor: "#ccc",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    position: 'absolute',      
+  },
 });
 
 const mapStateToProps = (state) => ({

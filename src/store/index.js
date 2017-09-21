@@ -3,8 +3,13 @@ import { combineEpics, createEpicMiddleware } from "redux-observable"
 import logger from "redux-logger"
 
 import authReducer from "./reducers/authReducer"
+import mapReducer from "./reducers/mapReducer"
+
 import { authActions } from "./actions/authActions"
+
 import authEpics from "./epics/authEpics"
+import mapEpics from "./epics/mapEpics"
+
 import { initializeApp } from 'firebase'
 
 var config = {
@@ -23,13 +28,16 @@ const rootEpic = combineEpics(
     authEpics.logIn,
     authEpics.logOut,
     authEpics.signUp,
-    authEpics.loadUser
+    authEpics.loadUser,
+    mapEpics.search,
+    mapEpics.loadRoute,
 )
 
 const epicMiddleware =  createEpicMiddleware(rootEpic)
 
 var rootReducer = combineReducers({
     auth: authReducer,
+    map: mapReducer,
 })
 
 const store = createStore(
